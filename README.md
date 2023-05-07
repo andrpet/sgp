@@ -1,9 +1,9 @@
 # SGP
 
 Il micorservizio SGP (Sccenario per Gestione pratiche) ha come oggetto di dominio la Pratica (da ora Paperwork). 
-E' un multimodule maven ed è suddiviso in tre moduli funzionali. sgp-application-api implementa i 
-controller per le rotte REST associate al microservizio. sgp-application-mongodb si occupa della persistenza dei dati
-su database non relazionale mongodb. sgp-application-outbound-event si occupa della pubblicazione di messaggi su code kafka
+E' un multimodule maven ed è suddiviso in tre moduli funzionali. ***sgp-application-api*** implementa i 
+controller per le rotte REST associate al microservizio. ***sgp-application-mongodb*** si occupa della persistenza dei dati
+su database non relazionale mongodb. ***sgp-application-outbound-event*** si occupa della pubblicazione di messaggi su code kafka
 per la segnalazione dei passaggi di stato del Paperwork.
 
 L'ogetto **Paperwork** è strutturato come segue:
