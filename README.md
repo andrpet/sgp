@@ -26,6 +26,8 @@ Il microservizio tramite sgp-application-api implementa due controller il primo 
 consultazione, modifica e download dell'allegato di un Paperwork.
 Il secondo controller ***PaperworkLifeCycleController*** espone rotte per la gestione del ciclo di vita di un Paperwork.
 
+Gli ***entry point*** logici del microservizio sono i due controller REST.
+
 L'architettura può essere rappresentata con il diagramma in figura:
 
 ![Alt text](sgp_architecture.drawio.png "SGP architecture")
