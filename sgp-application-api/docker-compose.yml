@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  sgp-api:
+    build: .
+    image: sgp-api
+    ports:
+      - "8080:8080"
+      - "5700:5700"
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+# IMPORTANT!!!
+# cambiare il valore del campo spring.data.mongodb.host=localhost mettendo mongo invece di localhost come host
