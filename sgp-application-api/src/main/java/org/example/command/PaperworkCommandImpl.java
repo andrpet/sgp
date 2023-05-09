@@ -61,9 +61,10 @@ public class PaperworkCommandImpl implements PaperworkCommand {
   @Override
   public Mono<PaperworkCRResponse> addPaperwork(PaperworkRequest paperworkRequest) {
     return papwerworkValidator.validate(paperworkRequest)
-             .flatMap(valid -> savePaperworkDb(paperworkRequest))
-             .flatMap(rs -> savePaperworkUpload(paperworkRequest, rs))
-             .map(res -> PaperworkCRResponse.PaperworkSaveResponseBuilder.success(res.getPaperworkID()));
+            .flatMap(valid -> savePaperworkDb(paperworkRequest))
+            .flatMap(rs -> savePaperworkUpload(paperworkRequest, rs))
+            .map(res -> PaperworkCRResponse.PaperworkSaveResponseBuilder.success(res.getPaperworkID()))
+            .onErrorReturn(PaperworkCRResponse.PaperworkSaveResponseBuilder.fail());
   }
 
   private Mono<PaperworkCRResponse> savePaperworkUpload(PaperworkRequest paperworkRequest, PaperworkCRResponse rs) {
@@ -71,9 +72,7 @@ public class PaperworkCommandImpl implements PaperworkCommand {
       String filename = String.format("%s.%s", rs.getPaperworkID(), "pdf");
       Path path = Path.of(uploadDirectory, filename);
 
-      return filePart.transferTo(path)
-               .map(unused -> PaperworkSaveResponseBuilder.success(rs.getPaperworkID()))
-               .onErrorReturn(PaperworkSaveResponseBuilder.fail());
+      return filePart.transferTo(path).then(Mono.just(PaperworkSaveResponseBuilder.success(rs.getPaperworkID())));
     });
   }
 
@@ -82,8 +81,7 @@ public class PaperworkCommandImpl implements PaperworkCommand {
     String filename = String.format("%s.%s", paperworkID, "pdf");
 
     return paperworkService.createPaperwork(getPaperwork(paperworkRequest, paperworkID, filename))
-             .map(k -> PaperworkCRResponse.PaperworkSaveResponseBuilder.success(paperworkID))
-             .onErrorReturn(PaperworkSaveResponseBuilder.fail());
+             .map(k -> PaperworkCRResponse.PaperworkSaveResponseBuilder.success(paperworkID));
   }
 
   private Paperwork getPaperwork(PaperworkRequest paperworkRequest, String paperworkIdentifier, String docPath) {
